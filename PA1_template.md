@@ -1,6 +1,6 @@
 # Reproducible Research: Peer Assessment 1
 
-This report will investigate patterns in activity of an anonymous individual through a sequence of days. To do this we'll use measurements present in the `activity.zip` file on this repository. We choose to use the `ggplot2` library to construct the plots. So, the first step is configure system and load libraries. Note that set locale to US is necessary since we'll work with dates using North American format.
+This report will investigate patterns in activity of an anonymous individual through a sequence of days. To do this we'll use measurements present in the `activity.zip` file on this repository. We choose to use the `ggplot2` library to construct the plots. So, the first step is configure system and load libraries. Note that set locale to US is necessary since we'll work with dates using North American format. We'll also create a new folder `figure` to export plots generated.
 
 
 ```r
@@ -16,7 +16,7 @@ if (!file.exists("figure")) {
 ### Loading data
 
 We'll load the data into a data frame called `activity`. To do it we will open
-and read the csv inside the zip file and look its structure:
+and read the csv inside the zip file and look inside its structure:
 
 
 ```r
@@ -127,7 +127,7 @@ The interval with the max average steps is **835**.
 
 ## Imputing missing values
 
-Note that are **2304** measurements missing,
+Note that there are **2304** measurements missing,
 and some days with total absence of measurements (there are 288 5-minute intervals per day):
 
 
@@ -240,7 +240,7 @@ filled$is_weekend <- factor(filled$is_weekend, levels = c(FALSE, TRUE), labels =
 by_interval_filled <- aggregate(steps ~ interval + is_weekend, filled, FUN = mean)
 ```
 
-Let's plot some comparison between average activity in weekdays and weekend, using the smooth geometry that gives us the average for each 5-minute interval:
+Let's plot some comparison between average activity in weekdays and weekend:
 
 
 ```r
@@ -256,3 +256,5 @@ ggsave("figure/plot4.png", dpi = 100)
 ```
 ## Saving 7 x 5 in image
 ```
+
+The graph shows that on weekends the person's activities starts later, and are more well distributed through the day.

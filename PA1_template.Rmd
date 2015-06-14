@@ -5,7 +5,7 @@ output:
     keep_md: true
 ---
 
-This report will investigate patterns in activity of an anonymous individual through a sequence of days. To do this we'll use measurements present in the `activity.zip` file on this repository. We choose to use the `ggplot2` library to construct the plots. So, the first step is configure system and load libraries. Note that set locale to US is necessary since we'll work with dates using North American format.
+This report will investigate patterns in activity of an anonymous individual through a sequence of days. To do this we'll use measurements present in the `activity.zip` file on this repository. We choose to use the `ggplot2` library to construct the plots. So, the first step is configure system and load libraries. Note that set locale to US is necessary since we'll work with dates using North American format. We'll also create a new folder `figure` to export plots generated.
 
 ```{r results='hide'}
 Sys.setlocale("LC_ALL", "us")
@@ -20,7 +20,7 @@ if (!file.exists("figure")) {
 ### Loading data
 
 We'll load the data into a data frame called `activity`. To do it we will open
-and read the csv inside the zip file and look its structure:
+and read the csv inside the zip file and look inside its structure:
 
 ```{r}
 activity <- read.csv(unz("activity.zip", "activity.csv"))
@@ -83,7 +83,7 @@ The interval with the max average steps is **`r by_interval[which.max(by_interva
 
 ## Imputing missing values
 
-Note that are **`r sum(is.na(activity$steps))`** measurements missing,
+Note that there are **`r sum(is.na(activity$steps))`** measurements missing,
 and some days with total absence of measurements (there are 288 5-minute intervals per day):
 
 ```{r}
@@ -144,9 +144,11 @@ filled$is_weekend <- factor(filled$is_weekend, levels = c(FALSE, TRUE), labels =
 by_interval_filled <- aggregate(steps ~ interval + is_weekend, filled, FUN = mean)
 ```
 
-Let's plot some comparison between average activity in weekdays and weekend, using the smooth geometry that gives us the average for each 5-minute interval:
+Let's plot some comparison between average activity in weekdays and weekend:
 
 ```{r warning=FALSE}
 qplot(interval, steps, data = by_interval_filled, facets = is_weekend ~., geom = "line")
 ggsave("figure/plot4.png", dpi = 100)
 ```
+
+The graph shows that on weekends the person's activities starts later, and are more well distributed through the day.
